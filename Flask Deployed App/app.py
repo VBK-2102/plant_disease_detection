@@ -15,7 +15,7 @@ model = CNN.CNN(39)
 model.load_state_dict(torch.load("C:/Plant-Disease-Detection/Flask Deployed App/plant_disease_model_1_latest.pt"))
 model.eval()
 
-deff prediction(image_path):
+def prediction(image_path):
     image = Image.open(image_path)
     image = image.resize((224, 224))
     input_data = TF.to_tensor(image)
