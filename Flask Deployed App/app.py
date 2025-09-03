@@ -17,7 +17,7 @@ supplement_info = pd.read_csv(os.path.join(BASE_DIR, 'supplement_info.csv'), enc
 
 # Download model from Google Drive if not present
 model_path = os.path.join(BASE_DIR, 'plant_disease_model_1_latest.pt')
-gdrive_url = 'https://drive.google.com/uc?id=1NeyEcTVvAIf0rJePzf9fe-7kzckyRBRW'
+gdrive_url = 'https://drive.google.com/file/d/1NeyEcTVvAIf0rJePzf9fe-7kzckyRBRW/view?usp=sharing'
 if not os.path.exists(model_path):
     gdown.download(gdrive_url, model_path, quiet=False)
 
@@ -80,3 +80,4 @@ def market():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
