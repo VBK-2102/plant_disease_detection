@@ -1,3 +1,4 @@
+
 import os
 from flask import Flask, redirect, render_template, request
 from PIL import Image
@@ -6,17 +7,25 @@ import CNN
 import numpy as np
 import torch
 import pandas as pd
+import gdown
+
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 disease_info = pd.read_csv(os.path.join(BASE_DIR, 'disease_info.csv'), encoding='cp1252')
 supplement_info = pd.read_csv(os.path.join(BASE_DIR, 'supplement_info.csv'), encoding='cp1252')
 
+# Download model from Google Drive if not present
+model_path = os.path.join(BASE_DIR, 'plant_disease_model_1_latest.pt')
+gdrive_url = 'https://drive.google.com/uc?id=1NeyEcTVvAIf0rJePzf9fe-7kzckyRBRW'
+if not os.path.exists(model_path):
+    gdown.download(gdrive_url, model_path, quiet=False)
+
 model = CNN.CNN(39)
-model.load_state_dict(torch.load(os.path.join(BASE_DIR, 'plant_disease_model_1_latest.pt')))
+model.load_state_dict(torch.load(model_path))
 model.eval()
 
-def prediction(image_path):
+def prediction(image_path): 
     image = Image.open(image_path)
     image = image.resize((224, 224))
     input_data = TF.to_tensor(image)
@@ -71,4 +80,3 @@ def market():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
