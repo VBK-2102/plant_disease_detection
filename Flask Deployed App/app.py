@@ -8,11 +8,12 @@ import torch
 import pandas as pd
 
 
-disease_info = pd.read_csv('C:/Plant-Disease-Detection/Flask Deployed App/disease_info.csv' , encoding='cp1252')
-supplement_info = pd.read_csv('C:/Plant-Disease-Detection/Flask Deployed App/supplement_info.csv',encoding='cp1252')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+disease_info = pd.read_csv(os.path.join(BASE_DIR, 'disease_info.csv'), encoding='cp1252')
+supplement_info = pd.read_csv(os.path.join(BASE_DIR, 'supplement_info.csv'), encoding='cp1252')
 
-model = CNN.CNN(39)    
-model.load_state_dict(torch.load("C:/Plant-Disease-Detection/Flask Deployed App/plant_disease_model_1_latest.pt"))
+model = CNN.CNN(39)
+model.load_state_dict(torch.load(os.path.join(BASE_DIR, 'plant_disease_model_1_latest.pt')))
 model.eval()
 
 def prediction(image_path):
@@ -70,3 +71,4 @@ def market():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
