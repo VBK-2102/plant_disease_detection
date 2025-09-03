@@ -7,7 +7,8 @@ import CNN
 import numpy as np
 import torch
 import pandas as pd
-import gdown
+
+import requests
 
 
 
@@ -15,11 +16,17 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 disease_info = pd.read_csv(os.path.join(BASE_DIR, 'disease_info.csv'), encoding='cp1252')
 supplement_info = pd.read_csv(os.path.join(BASE_DIR, 'supplement_info.csv'), encoding='cp1252')
 
-# Download model from Google Drive if not present
+
+# Download model from Hugging Face if not present
 model_path = os.path.join(BASE_DIR, 'plant_disease_model_1_latest.pt')
-gdrive_url = 'https://drive.google.com/file/d/1NeyEcTVvAIf0rJePzf9fe-7kzckyRBRW/view?usp=sharing'
+hf_url = 'https://huggingface.co/vaibhavbk/Pantl_DD/resolve/main/plant_disease_model_1_latest.pt'
 if not os.path.exists(model_path):
-    gdown.download(gdrive_url, model_path, quiet=False)
+    print('Downloading model from Hugging Face...')
+    response = requests.get(hf_url)
+    response.raise_for_status()
+    with open(model_path, 'wb') as f:
+        f.write(response.content)
+    print('Model downloaded.')
 
 model = CNN.CNN(39)
 model.load_state_dict(torch.load(model_path, weights_only=False))
