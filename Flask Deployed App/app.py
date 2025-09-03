@@ -22,7 +22,7 @@ if not os.path.exists(model_path):
     gdown.download(gdrive_url, model_path, quiet=False)
 
 model = CNN.CNN(39)
-model.load_state_dict(torch.load(model_path))
+model.load_state_dict(torch.load(model_path, weights_only=False))
 model.eval()
 
 def prediction(image_path): 
@@ -80,4 +80,5 @@ def market():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
